@@ -2,10 +2,8 @@ package com.notice.notice.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,11 +11,13 @@ import com.notice.notice.utils.baseModel;
 import java.util.*;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class user extends baseModel implements UserDetails  {
     @Column(nullable = false , length = 45)
     String username;

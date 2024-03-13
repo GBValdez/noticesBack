@@ -2,17 +2,17 @@ package com.notice.notice.user;
 
 import com.notice.notice.utils.baseModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "roles")
-@Builder
+@SuperBuilder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class role extends baseModel {
     @Column(nullable = false , length = 45)
     String name;

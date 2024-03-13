@@ -4,18 +4,18 @@ import com.notice.notice.category.category;
 import com.notice.notice.user.user;
 import com.notice.notice.utils.baseModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "notice")
-@Data
-@Builder
+@SuperBuilder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class notice extends baseModel {

@@ -2,12 +2,17 @@ package com.notice.notice.utils;
 
 import com.notice.notice.user.user;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
 @MappedSuperclass
-@Data
+@Getter
+@Setter
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class baseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +23,7 @@ public class baseModel {
     @Temporal(TemporalType.TIMESTAMP)
     Date deleteAt;
     @ManyToOne
+    @JoinColumn(name = "update_user_id", referencedColumnName = "id", nullable = true)
     user updateUser;
 
 }

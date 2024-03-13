@@ -1,4 +1,6 @@
 package com.notice.notice.notice;
 
-public interface noticeRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface noticeRepository  extends JpaRepository<notice, Long> {
 }

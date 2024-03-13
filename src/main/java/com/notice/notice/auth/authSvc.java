@@ -13,6 +13,9 @@ import com.notice.notice.jwt.jwtSvc;
 import com.notice.notice.auth.loginRequest;
 import com.notice.notice.auth.registerRequest;
 import com.notice.notice.auth.authResponse;
+
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class authSvc {
@@ -31,7 +34,7 @@ public class authSvc {
     public authResponse register(registerRequest registerRequest) {
         user newUser = user.builder().username(registerRequest.getUsername()).password(passwordEncoder.encode(registerRequest.getPassword())).email(
                 registerRequest.getEmail()
-        ) . build();
+        ).updateAt(new Date()).build();
         userRepository.save(newUser);
         return authResponse.builder().token(jwtService.getToken(newUser)).build();
 
