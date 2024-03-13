@@ -3,6 +3,7 @@ package com.notice.notice.utils;
 import com.notice.notice.user.user;
 import com.notice.notice.user.userRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class commonsCtrl <E extends baseModel,R extends JpaRepository<E,Long>,S extends commonsSvc<E, R>>{
-    private final S service;
+    protected final S service;
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<E> save(@RequestBody E entity){
