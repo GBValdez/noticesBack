@@ -26,7 +26,7 @@ public class authSvc {
 
     public authResponse login(loginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        UserDetails user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
+        user user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
         String token = jwtService.getToken(user);
         return new authResponse(token);
     }

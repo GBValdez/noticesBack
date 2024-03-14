@@ -1,5 +1,6 @@
 package com.notice.notice.jwt;
 
+import com.notice.notice.user.user;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -9,16 +10,21 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 @Service
 public class jwtSvc {
     private static String KEY_JWT = "AISFJQWIFNQWIFNQWIFNQWIFNWEFENFWIEFDMGNERIGTUGNRTBNLRRNWOIGWNOGEWNFIOEWFNWEKFNDJGORIGJWOGWEJGOEWGJWOEGIJWEOG";
-    public String getToken(UserDetails user){
-        return getToken(Map.of(), user);
+    public String getToken(user user){
+        return getTokenPr( user);
     }
-    private String getToken(Map<String,Object> extraClaims, UserDetails user){
+    private String getTokenPr( user user){
+        Map<String,Object> extraClaims= new HashMap<>();
+        extraClaims.put("email",user.getEmail());
+        extraClaims.put("roles",user.getRoles()
+                .stream().map(role -> role.getName()).toArray());
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
