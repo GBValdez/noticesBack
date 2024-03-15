@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+// Servicio para manejar el token
 @Service
 public class jwtSvc {
     private static String KEY_JWT = "AISFJQWIFNQWIFNQWIFNQWIFNWEFENFWIEFDMGNERIGTUGNRTBNLRRNWOIGWNOGEWNFIOEWFNWEKFNDJGORIGJWOGWEJGOEWGJWOEGIJWEOG";

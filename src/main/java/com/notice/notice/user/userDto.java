@@ -9,4 +9,5 @@ public class userDto {
     String username;
     String email;
     List<String> roles;
+    String name;
 }

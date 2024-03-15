@@ -15,6 +15,6 @@ public class noticeDto {
     String imageUrl;
     String body;
     List<categoryDto> categories;
-    String author;
+    userDto author;
     Date publicationDay;
 }

@@ -14,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class baseModel {
+    //Clase base para los modelos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

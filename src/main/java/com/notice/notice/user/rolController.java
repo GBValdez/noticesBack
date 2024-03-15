@@ -1,6 +1,7 @@
 package com.notice.notice.user;
 
 import com.notice.notice.utils.commonsCtrl;
+import com.notice.notice.utils.errorMesage;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,13 @@ public class rolController extends commonsCtrl<role,rolRepository,rolSvc,roleDto
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<roleDto>> findAll() {
         return super.findAll();
+    }
+
+    @Override
+    protected errorMesage canDelete(role entity, user userPetition) {
+        if(service.existRoleInAnyUser((long) entity.getId())>0)
+            return new errorMesage("No se puede eliminar el rol, esta asociado a un usuario");
+        return null;
     }
 
     @Override

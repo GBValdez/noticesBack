@@ -27,8 +27,6 @@ public class categoryController extends commonsCtrl<category,categoryRepository,
         this.noticeService=noticeService;
     }
 
-
-
     @Override
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<categoryDto>> findAll() {
@@ -41,6 +39,7 @@ public class categoryController extends commonsCtrl<category,categoryRepository,
         return super.findById(id);
     }
 
+    //Validacion para eliminar una categoria, si la categoria tiene noticias asociadas no se puede eliminar
     @Override
     protected errorMesage canDelete(category entity, user userPetition) {
         List<Long> category= new ArrayList<>();

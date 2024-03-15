@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+// Clase para manejar las excepciones de validacion de los campos
 @ControllerAdvice
 public class responseErrorException extends ResponseEntityExceptionHandler {
     @Override
