@@ -73,4 +73,5 @@ public class commonsCtrl <E extends baseModel,R extends JpaRepository<E,Long>,S 
         List<DTO> dtoMap= modelMapper.map(service.findAll(), List.class);
            return ResponseEntity.ok(dtoMap);
     }
+
 }

@@ -21,7 +21,7 @@ public class categoryController extends commonsCtrl<category,categoryRepository,
     }
 
 
-/*
+
     @Override
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<categoryDto>> findAll() {
@@ -32,5 +32,5 @@ public class categoryController extends commonsCtrl<category,categoryRepository,
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<categoryDto> findById(Long id) {
         return super.findById(id);
-    }*/
+    }
 }

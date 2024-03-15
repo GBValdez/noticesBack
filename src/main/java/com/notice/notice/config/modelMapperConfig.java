@@ -25,6 +25,7 @@ public class modelMapperConfig {
                         .map(id -> categoryRepo.findById((long) id).orElse(null)) // Busca cada categoría por ID
                         .collect(Collectors.toList());
 
+
         // Mapeo personalizado para noticeCreationDto a notice
         modelMapper.addMappings(new PropertyMap<noticeCreationDto, notice>() {
             @Override
