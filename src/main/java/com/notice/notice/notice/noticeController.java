@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -20,16 +17,14 @@ import java.util.List;
 @RequestMapping("/api/notice")
 public class noticeController extends commonsCtrl<notice,noticeRepository,noticeSvc,noticeDto,noticeCreationDto> {
 
-
-    public noticeController( noticeSvc service, ModelMapper modelMapper, userSvc userService) {
+    public noticeController(noticeSvc service, ModelMapper modelMapper, userSvc userService) {
         super(notice.class, noticeDto.class, service, modelMapper, userService);
     }
 
+
     @Override
-    protected notice modifyEntityPost(notice entity) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        user thisUser= userService.findByUsername(authentication.getName()).get();
-        entity.setAuthor(thisUser);
+    protected notice modifyEntityPost(notice entity,user userPetition) {
+        entity.setAuthor(userPetition);
         entity.setPublicationDay(new Date());
         return entity;
     }
@@ -52,6 +47,8 @@ public class noticeController extends commonsCtrl<notice,noticeRepository,notice
         List<noticeDto> notices = modelMapper.map(service.findByCategoriesIn(idsCatalogue), List.class);
         return ResponseEntity.ok(notices);
     }
+
+
 
 
 

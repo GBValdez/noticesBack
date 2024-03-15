@@ -1,7 +1,11 @@
 package com.notice.notice.user;
 
+import com.notice.notice.notice.notice;
+import com.notice.notice.utils.commosRepo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface rolRepository extends JpaRepository<role, Long> {
+import java.util.List;
+
+public interface rolRepository extends commosRepo<role, Long> {
 
 }

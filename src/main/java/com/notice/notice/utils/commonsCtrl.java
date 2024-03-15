@@ -12,13 +12,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class commonsCtrl <E extends baseModel,R extends JpaRepository<E,Long>,S extends commonsSvc<E, R>,DTO,DTOCreation>{
+public class commonsCtrl <E extends baseModel,R extends commosRepo<E,Long>,S extends commonsSvc<E, R>,DTO,DTOCreation>{
     private final Class<E> entityClass;
     private final Class<DTO> dtoClass;
     protected final S service;
@@ -31,32 +32,43 @@ public class commonsCtrl <E extends baseModel,R extends JpaRepository<E,Long>,S 
         entityMap.setUpdateAt(new Date());
         user thisUser= userService.findByUsername(authentication.getName()).get();
         entityMap.setUpdateUser(thisUser);
-        entityMap=modifyEntityPost(entityMap);
+        entityMap=modifyEntityPost(entityMap,thisUser);
 
         return ResponseEntity.ok(service.save(entityMap));
     }
-    protected E modifyEntityPost(E entity){
+    protected E modifyEntityPost(E entity, user userPetition){
         return entity;
     }
-
-
+    protected errorMesage canDelete(E entity, user userPetition){
+        return null;
+    }
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<E> update(@Valid @RequestBody DTOCreation entity, @PathVariable("id") long id){
-        if(service.findById(id)==null)
+        E oldEntity= service.findById(id);
+        if(oldEntity==null)
             return ResponseEntity.notFound().build();
-        E entityMap= modelMapper.map(entity, entityClass);
-        entityMap.setId((int) id);
-        entityMap.setUpdateAt(new Date());
-        return ResponseEntity.ok(service.save(entityMap));
+        modelMapper.map(entity, oldEntity);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        user thisUser= userService.findByUsername(authentication.getName()).get();
+        oldEntity.setUpdateUser(thisUser);
+        oldEntity.setId((int) id);
+        oldEntity.setUpdateAt(new Date());
+        return ResponseEntity.ok(service.save(oldEntity));
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-
-    public ResponseEntity delete(Long id){
+    public ResponseEntity delete(@PathVariable() long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        user thisUser= userService.findByUsername(authentication.getName()).get();
         E entity= service.findById(id);
         if(entity==null)
             return ResponseEntity.notFound().build();
+        errorMesage error=canDelete(entity,thisUser);
+        if(error!=null) {
+            return ResponseEntity.badRequest().body(error);
+        }
+        entity.setUpdateUser(thisUser);
         service.delete(entity);
         return ResponseEntity.ok().build();
     }

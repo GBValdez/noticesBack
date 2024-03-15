@@ -4,6 +4,7 @@ import com.notice.notice.notice.notice;
 import com.notice.notice.notice.noticeCreationDto;
 import com.notice.notice.notice.noticeDto;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Conditions;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -20,6 +21,7 @@ public class modelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         Converter<List<Integer>, List<category>> categoryConverter = ctx ->
                 ctx.getSource().stream()
                         .map(id -> categoryRepo.findById((long) id).orElse(null)) // Busca cada categoría por ID
