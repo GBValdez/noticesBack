@@ -8,20 +8,19 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class commonsSvc <E extends  baseModel,R extends JpaRepository<E,Long>>{
-    private final R repository;
+    protected final R repository;
 
     public E save(E entity){
-        entity.updateAt=new Date();
+        entity.setUpdateAt(new Date());
         return repository.save(entity);
     }
     public List<E> findAll(){
         return repository.findAll();
     }
     public E findById(Long id){
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElse(null);
     }
-    public boolean delete(Long id){
-        E item= repository.findById(id).orElseThrow();
+    public boolean delete(E item){
         item.setDeleteAt(new Date());
         repository.save(item);
         return true;

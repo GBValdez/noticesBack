@@ -1,7 +1,10 @@
 package com.notice.notice.auth;
 
+import com.notice.notice.user.rolSvc;
+import com.notice.notice.user.role;
 import com.notice.notice.user.user;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +18,8 @@ import com.notice.notice.auth.registerRequest;
 import com.notice.notice.auth.authResponse;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,20 +28,36 @@ public class authSvc {
     private final jwtSvc jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
+    private final ModelMapper modelMapper;
+    private final rolSvc roleService;
     public authResponse login(loginRequest loginRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        user user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
-        String token = jwtService.getToken(user);
-        return new authResponse(token);
+        try{
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            user user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
+            String token = jwtService.getToken(user);
+            return new authResponse(token);
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
     public authResponse register(registerRequest registerRequest) {
-        user newUser = user.builder().username(registerRequest.getUsername()).password(passwordEncoder.encode(registerRequest.getPassword())).email(
-                registerRequest.getEmail()
-        ).updateAt(new Date()).build();
-        userRepository.save(newUser);
-        return authResponse.builder().token(jwtService.getToken(newUser)).build();
+        if(userRepository.existsByUsername(registerRequest.getUsername())){
+            return null;
+        }
+        if(userRepository.existsByEmail(registerRequest.getEmail())){
+            return null;
+        }
+
+        user newUser= modelMapper.map(registerRequest, user.class);
+        newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        newUser.setUpdateAt(new Date());
+        role defaultRole = roleService.findById(2L);
+        newUser.getRoles().add(defaultRole);
+        newUser=userRepository.save(newUser);
+        String token = jwtService.getToken(newUser);
+        return new authResponse(token);
 
     }
 }

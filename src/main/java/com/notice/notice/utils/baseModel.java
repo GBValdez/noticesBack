@@ -16,14 +16,14 @@ import java.util.Date;
 public class baseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    Date updateAt;
+    private Date updateAt;
     @Temporal(TemporalType.TIMESTAMP)
-    Date deleteAt;
+    private Date deleteAt;
     @ManyToOne
     @JoinColumn(name = "update_user_id", referencedColumnName = "id", nullable = true)
-    user updateUser;
+    private user updateUser;
 
 }

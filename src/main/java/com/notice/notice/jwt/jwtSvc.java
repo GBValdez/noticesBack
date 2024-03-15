@@ -25,6 +25,7 @@ public class jwtSvc {
         extraClaims.put("email",user.getEmail());
         extraClaims.put("roles",user.getRoles()
                 .stream().map(role -> role.getName()).toArray());
+        extraClaims.put("id",user.getId());
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())

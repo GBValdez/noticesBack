@@ -21,6 +21,9 @@ import java.util.*;
 public class user extends baseModel implements UserDetails  {
     @Column(nullable = false , length = 45)
     String username;
+    @Column(nullable = false , length = 100)
+    String name;
+
     @Column(nullable = false )
     String password;
     @Column(nullable = false , length = 100)

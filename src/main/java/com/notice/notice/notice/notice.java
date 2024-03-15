@@ -23,9 +23,9 @@ public class notice extends baseModel {
     String title;
     @Column(nullable = false , length = 100)
     String description;
-    @Column(nullable = false , length = 100)
+    @Column(nullable = false , columnDefinition = "TEXT")
     String imageUrl;
-    @Column(nullable = false )
+    @Column(nullable = false ,columnDefinition = "TEXT")
     String body;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
