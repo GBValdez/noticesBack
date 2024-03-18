@@ -58,7 +58,7 @@ public class commonsCtrl <E extends baseModel,R extends commosRepo<E,Long>,S ext
         logModifyEntity(oldEntity);
         return ResponseEntity.ok(service.save(oldEntity));
     }
-    //Metodo para agregar los datos de bitacora a un registro
+    //Metodo para agregar los datos necesarios de la bitacora a un registro
     private  user logModifyEntity(E entity){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         user thisUser= userService.findByUsername(authentication.getName()).get();
