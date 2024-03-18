@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//Dto para la creacion de un usuario
 @Data
 @Builder
 @AllArgsConstructor

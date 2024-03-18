@@ -19,10 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class aplicationConfig {
     private final userRepository userRepository;
 
+    //Se configura el AuthenticationManager
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+    //Se configura el AuthenticationProvider para que se pueda autenticar a los usuarios
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -31,10 +33,12 @@ public class aplicationConfig {
         return provider;
     }
 
+    //Se configura el PasswordEncoder para que las contraseñas se guarden encriptadas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    //Se configura el UserDetailsService para que se pueda buscar un usuario por su nombre de usuario
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)

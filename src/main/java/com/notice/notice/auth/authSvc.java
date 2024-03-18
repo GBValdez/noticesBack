@@ -1,25 +1,18 @@
 package com.notice.notice.auth;
 
+import com.notice.notice.jwt.jwtSvc;
 import com.notice.notice.user.rolSvc;
 import com.notice.notice.user.role;
 import com.notice.notice.user.user;
+import com.notice.notice.user.userRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.notice.notice.user.userRepository;
-import com.notice.notice.jwt.jwtSvc;
-import com.notice.notice.auth.loginRequest;
-import com.notice.notice.auth.registerRequest;
-import com.notice.notice.auth.authResponse;
-
 import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

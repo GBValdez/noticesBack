@@ -11,7 +11,7 @@ import com.notice.notice.jwt.jwtAuthenticationFilter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+//Se configura la seguridad de la aplicación
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

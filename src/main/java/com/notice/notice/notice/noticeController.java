@@ -24,10 +24,10 @@ public class noticeController extends commonsCtrl<notice,noticeRepository,notice
 
     //Metodo para modificar una noticia, para agregar el autor y la fecha de publicacion
     @Override
-    protected notice modifyEntityPost(notice entity,user userPetition) {
+    protected void modifyEntityPost(notice entity,user userPetition) {
         entity.setAuthor(userPetition);
         entity.setPublicationDay(new Date());
-        return entity;
+
     }
 
     @Override

@@ -22,7 +22,7 @@ public class userController extends commonsCtrl<user,userRepository,userSvc,user
     }
 
     @Override
-    public ResponseEntity save(userDto entity, Authentication authentication) {
+    public ResponseEntity save(userDto entity) {
         errorMesage error=new errorMesage("EndPoint invalido");
         return ResponseEntity.status(403).body(error);
     }

@@ -31,19 +31,15 @@ public class commonsCtrl <E extends baseModel,R extends commosRepo<E,Long>,S ext
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Guardar una entidad")
-    public ResponseEntity<E> save(@Valid @RequestBody DTOCreation entity, Authentication authentication){
+    public ResponseEntity<E> save(@Valid @RequestBody DTOCreation entity){
         E entityMap= modelMapper.map(entity, entityClass);
-        entityMap.setUpdateAt(new Date());
-        user thisUser= userService.findByUsername(authentication.getName()).get();
-        entityMap.setUpdateUser(thisUser);
         // Se llama al metodo para modificar la entidad antes de ser guardada
-        entityMap=modifyEntityPost(entityMap,thisUser);
-
+        modifyEntityPost(entityMap,logModifyEntity(entityMap));
         return ResponseEntity.ok(service.save(entityMap));
     }
     //Metodo para modificar una entidad antes de ser guardada
-    protected E modifyEntityPost(E entity, user userPetition){
-        return entity;
+    protected void modifyEntityPost(E entity, user userPetition){
+
     }
     //Metodo para validar si se puede eliminar una entidad
     protected errorMesage canDelete(E entity, user userPetition){
@@ -58,12 +54,17 @@ public class commonsCtrl <E extends baseModel,R extends commosRepo<E,Long>,S ext
         if(oldEntity==null)
             return ResponseEntity.notFound().build();
         modelMapper.map(entity, oldEntity);
+        oldEntity.setId((int) id);
+        logModifyEntity(oldEntity);
+        return ResponseEntity.ok(service.save(oldEntity));
+    }
+    //Metodo para agregar los datos de bitacora a un registro
+    private  user logModifyEntity(E entity){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         user thisUser= userService.findByUsername(authentication.getName()).get();
-        oldEntity.setUpdateUser(thisUser);
-        oldEntity.setId((int) id);
-        oldEntity.setUpdateAt(new Date());
-        return ResponseEntity.ok(service.save(oldEntity));
+        entity.setUpdateUser(thisUser);
+        entity.setUpdateAt(new Date());
+        return thisUser;
     }
     //Metodo para eliminar una entidad
     @DeleteMapping("/{id}")

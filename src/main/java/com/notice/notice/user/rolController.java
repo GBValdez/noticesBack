@@ -26,6 +26,7 @@ public class rolController extends commonsCtrl<role,rolRepository,rolSvc,roleDto
         return super.findAll();
     }
 
+    //Metodo para verificar si el rol esta asociado a un usuario y si no es asi, se puede eliminar
     @Override
     protected errorMesage canDelete(role entity, user userPetition) {
         if(service.existRoleInAnyUser((long) entity.getId())>0)
